@@ -1,0 +1,144 @@
+{
+    "saldoTotal": 116582.04,
+    "saldoNoPeriodo": 116582.04,
+    "page": {
+        "content": [
+            {
+                "id": 1,
+                "data_transferencia": "2019-01-01",
+                "valor": 30895.46,
+                "tipo": "DEPOSITO",
+                "nome_operador_transacao": null,
+                "conta_id": {
+                    "id_conta": 1,
+                    "nome_responsavel": "Fulano"
+                }
+            },
+            {
+                "id": 2,
+                "data_transferencia": "2019-02-03",
+                "valor": 12.24,
+                "tipo": "DEPOSITO",
+                "nome_operador_transacao": null,
+                "conta_id": {
+                    "id_conta": 2,
+                    "nome_responsavel": "Sicrano"
+                }
+            },
+            {
+                "id": 3,
+                "data_transferencia": "2019-05-04",
+                "valor": -500.5,
+                "tipo": "SAQUE",
+                "nome_operador_transacao": null,
+                "conta_id": {
+                    "id_conta": 1,
+                    "nome_responsavel": "Fulano"
+                }
+            },
+            {
+                "id": 4,
+                "data_transferencia": "2019-08-07",
+                "valor": -530.5,
+                "tipo": "SAQUE",
+                "nome_operador_transacao": null,
+                "conta_id": {
+                    "id_conta": 2,
+                    "nome_responsavel": "Sicrano"
+                }
+            },
+            {
+                "id": 5,
+                "data_transferencia": "2020-06-08",
+                "valor": 3241.23,
+                "tipo": "TRANSFERENCIA",
+                "nome_operador_transacao": "Beltrano",
+                "conta_id": {
+                    "id_conta": 1,
+                    "nome_responsavel": "Fulano"
+                }
+            }
+        ],
+        "pageable": {
+            "sort": {
+                "empty": false,
+                "sorted": true,
+                "unsorted": false
+            },
+            "offset": 0,
+            "pageSize": 5,
+            "pageNumber": 0,
+            "unpaged": false,
+            "paged": true
+        },
+        "last": false,
+        "totalElements": 12,
+        "totalPages": 3,
+        "size": 5,
+        "number": 0,
+        "sort": {
+            "empty": false,
+            "sorted": true,
+            "unsorted": false
+        },
+        "first": true,
+        "numberOfElements": 5,
+        "empty": false
+    }
+}
+
+
+export interface Root {
+  saldoTotal: number
+  saldoNoPeriodo: number
+  page: Page
+}
+
+export interface Page {
+  content: Content[]
+  pageable: Pageable
+  last: boolean
+  totalElements: number
+  totalPages: number
+  size: number
+  number: number
+  sort: Sort2
+  first: boolean
+  numberOfElements: number
+  empty: boolean
+}
+
+export interface Content {
+  id: number
+  data_transferencia: string
+  valor: number
+  tipo: string
+  nome_operador_transacao?: string
+  conta_id: ContaId
+}
+
+export interface ContaId {
+  id_conta: number
+  nome_responsavel: string
+}
+
+export interface Pageable {
+  sort: Sort
+  offset: number
+  pageSize: number
+  pageNumber: number
+  unpaged: boolean
+  paged: boolean
+}
+
+export interface Sort {
+  empty: boolean
+  sorted: boolean
+  unsorted: boolean
+}
+
+export interface Sort2 {
+  empty: boolean
+  sorted: boolean
+  unsorted: boolean
+}
