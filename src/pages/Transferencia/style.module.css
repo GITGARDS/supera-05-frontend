@@ -70,10 +70,26 @@
   gap: 10px;
 }
 
-.container_listagem .pesquisar_buttom {
+.container_listagem .pesquisar {
+  flex-direction: row;
+  justify-content: space-between;
   align-items: flex-end;
 }
-.container_listagem .pesquisar_buttom button {
+
+.container_listagem .pesquisar label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  width: 40%;
+}
+
+.container_listagem .pesquisar select {
+  padding: 5px;
+  outline: none;
+}
+
+
+.container_listagem .pesquisar button {
   border-radius: 0;
 }
 

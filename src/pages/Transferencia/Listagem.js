@@ -6,7 +6,6 @@ import ReactPaginate from "react-paginate";
 import Button from "react-bootstrap/Button";
 
 function Listagem({ pnome, pinicio, pfim }) {
-
   const [url, setUrl] = useState("");
 
   const [root, setRoot] = useState();
@@ -16,28 +15,50 @@ function Listagem({ pnome, pinicio, pfim }) {
   const [saldototal, setSaldototal] = useState(0);
   const [saldonoperiodo, setSaldonoperiodo] = useState(0);
 
-  const [pageAtual, setPageAtual] = useState(0);
+  const [contas, setContas] = useState([]);
+  const [conta, setConta] = useState(1);
 
-  let pageAtual2 = 0;
+  let pageAtual = 0;
 
-  useEffect(() => {    
-     findall();
-  }, []);
-  
-  
-  const pesquisarClick = () => {   
-    pageAtual2 = 0; 
+  useEffect(() => {
+    findall();
+    findallConta();
+  }, [conta]);
+
+  const findallConta = () => {
+    fetch("http://localhost:8080/api/conta/findall", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((resp) => resp.json())
+      .then((resp) => {
+        console.log(resp);
+        setContas(resp);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const pesquisarClick = () => {
+    pageAtual = 0;
     findall();
   };
-  
+
   const onPageChangeClick = (event) => {
-    pageAtual2 = event.selected; 
+    pageAtual = event.selected;
     // setPageAtual(event.selected);
     findall();
   };
 
+  const handleChange = (e) => {
+    console.log("handleChange", e.target.value);
+    setConta(e.target.value);
+  };
+
   const findall = () => {
-    let urllocal = "";
+    console.log("contallll,", conta)
+    let urllocal = "?conta=" + conta;
 
     if (pnome !== "") {
       if (urllocal.length > 0) urllocal = urllocal + "&";
@@ -60,7 +81,7 @@ function Listagem({ pnome, pinicio, pfim }) {
     if (urllocal.length > 0) urllocal = urllocal + "&";
     else urllocal = urllocal + "?";
 
-    urllocal = urllocal + "page=" + pageAtual2;
+    urllocal = urllocal + "page=" + pageAtual;
 
     urllocal = "http://localhost:8080/api/transferencia/findall" + urllocal;
 
@@ -89,13 +110,27 @@ function Listagem({ pnome, pinicio, pfim }) {
 
   return (
     <div className={styles.container_listagem}>
+      <section className={styles.pesquisar}>
+        <label>
+          Selecione uma Conta
+          <select
+            name="id_conta"
+            id="id_conta"
+            onChange={handleChange}
+            value={conta}
+          >
+            {contas.map((ret) => (
+              <option value={ret.id_conta} key={ret.id_conta}>
+                {ret.id_conta}-{ret.nome_responsavel}
+              </option>
+            ))}
+          </select>
+        </label>
 
-      <section className={styles.pesquisar_buttom}>
         <Button onClick={pesquisarClick} variant="dark">
           Pesquisar
         </Button>
       </section>
-      
 
       <section className={styles.tabela}>
         <div className={styles.tabela_saldo}>
@@ -108,7 +143,6 @@ function Listagem({ pnome, pinicio, pfim }) {
             <label>Saldo no período:</label>
             <span>R$ {saldonoperiodo}</span>{" "}
           </p>
-
         </div>
 
         <Table striped bordered hover>
@@ -139,7 +173,6 @@ function Listagem({ pnome, pinicio, pfim }) {
 
       <section className="pagination">
         <ReactPaginate
-          
           previousLabel={"previous"}
           nextLabel={"next"}
           breakLabel={"..."}
